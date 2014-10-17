@@ -1,17 +1,20 @@
 from cockhammer import *
 from dator import *
-from dator2 import *
+from micke import *
+from obama import *
 import pickle
 import collections
 
 
-playernames = ["Cockhammer", "Dator", "Dator2"]
+playernames = ["Cockhammer", "Dator", "Micke", "Obama"]
 players = {"Cockhammer": cockhammer,
            "Dator": dator,
-           "Dator2": dator2}
+           "Micke": micke,
+           "Obama": obama}
 # high_scores = {"Cockhammer": 0,
 #                "Dator": 0,
-#                "Dator2": 0}
+#                "Micke": 0,
+#                "Obama": 0}
 # with open("highscore.pkl", "wb") as out:
 #     pickle.dump(high_scores, out)
 
@@ -51,16 +54,14 @@ def highscore(score1, score2):
         pickle.dump(high_scores, out)
 
 
-for i in range(len(playernames) - 1):
+for i, player1 in enumerate(playernames[:-1]):
     Score = collections.namedtuple("Score", ["name", "score"])
-    player1 = playernames[i]
-    for j in range(i + 1, len(playernames)):
-        player2 = playernames[j]
+    for player2 in playernames[i + 1:]:
         f = open('RPSdata.txt', 'r+')
         f.seek(0, 2)
         wins = 0
         losses = 0
-        for k in range(100):
+        for k in range(5000):
             res1 = players[player1]()
             res2 = players[player2]()
             result = who_won(res1, res2)
@@ -76,7 +77,9 @@ for i in range(len(playernames) - 1):
 with open("highscore.pkl", "rb") as in_:
     new_high_scores = pickle.load(in_)
 
-print("{{TITLE:^{PAGE_WIDTH}}}".format(PAGE_WIDTH=80).format(TITLE="HIGH SCORES"))
+print("{{TITLE:^{PAGE_WIDTH}}}".format(PAGE_WIDTH=80)
+      .format(TITLE="HIGH SCORES"))
 print("-" * 80)
 for name, score in new_high_scores.items():
-    print("{{name:>{col_width}}} | {{score:<{col_width}}}".format(col_width=(80-3)//2).format(name=name, score=score))
+    print("{{name:>{col_width}}} | {{score:<{col_width}}}"
+          .format(col_width=(80-3)//2).format(name=name, score=score))
